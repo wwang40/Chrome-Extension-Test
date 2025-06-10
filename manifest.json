@@ -1,5 +1,20 @@
 {
     "manifest_version" : 3,
     "name" : "Lootbox Extension",
-    "version": "1.0.1"
+    "version": "1.0.0",
+    "icons": {
+
+    },
+    "background": {
+        "service_worker": "service-worker.js",
+        "type": "module"
+    },
+    "action":{},
+    "permissions": [
+        "scripting"
+    ],
+    "host_permissions":[
+        "http://*/*",
+        "https://*/*"
+    ]
 }
