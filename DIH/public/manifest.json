@@ -5,16 +5,21 @@
     "icons": {
         "16": "iconDIH.png"
     },
-    "background": {
-        "service_worker": "service-worker.js",
-        "type": "module"
+    "action":{
+        "default_popup": "index.html"
     },
-    "action":{},
     "permissions": [
         "scripting"
     ],
     "host_permissions":[
         "http://*/*",
         "https://*/*"
-    ]
+    ],
+    "content_scripts":{
+        "js": ["src/injector.js"],
+        "matches": [
+            "http://*/*",
+            "https://*/*" 
+        ]
+    }
 }
