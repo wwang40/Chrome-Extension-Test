@@ -4,15 +4,15 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [DIH, toggleDIH] = useState(false)
 
   const onclick = async () => {
     let [tab] = await chrome.tabs.query({active: true});
         chrome.scripting.executeScript({
         target: {tabId: tab.id!},
         func: () => {
+            toggleDIH(!DIH)
             alert('Hello World');
-            setCount(count + 1)
         }
     });
   }
@@ -29,7 +29,7 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={onclick}>
-          count is {count}
+          DIH is currently: {DIH}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
