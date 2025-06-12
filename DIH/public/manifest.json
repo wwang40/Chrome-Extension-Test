@@ -5,10 +5,6 @@
     "icons": {
         "16": "iconDIH.png"
     },
-    "background": {
-        "service_worker": "service-worker.js",
-        "type": "module"
-    },
     "action":{},
     "permissions": [
         "scripting"

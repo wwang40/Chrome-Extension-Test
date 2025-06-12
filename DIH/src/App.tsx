@@ -12,9 +12,11 @@ function App() {
         target: {tabId: tab.id!},
         func: () => {
             alert('Hello World');
+            setCount(count + 1);
         }
     });
   }
+
   return (
     <>
       <div>
@@ -27,7 +29,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={() => onclick}>
           count is {count}
         </button>
         <p>
