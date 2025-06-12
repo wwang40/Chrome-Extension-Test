@@ -5,7 +5,9 @@
     "icons": {
         "16": "iconDIH.png"
     },
-    "action":{},
+    "action":{
+        "default_popup": "index.html"
+    },
     "permissions": [
         "scripting"
     ],
