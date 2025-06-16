@@ -16,12 +16,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Service worker received DIH update:", request.value);
   }
 });
-
-chrome.action.onClicked.addListener(tab => {
-    chrome.scripting.executeScript({
-        target: {tabId: tab.id},
-        func: () => {
-            //alert('Hello World');
-        }
-    });
-});

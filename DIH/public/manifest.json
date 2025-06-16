@@ -19,5 +19,12 @@
     "host_permissions":[
         "http://*/*",
         "https://*/*"
-    ]
+    ],
+    "content_scripts":[{
+        "js": ["injector.js"],
+        "matches": [
+            "http://*.google.com/*",
+            "https://*/*" 
+        ]
+    }]
 }
