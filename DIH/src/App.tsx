@@ -13,7 +13,6 @@ function App() {
         func: () => {
             toggleDIH(!DIH)
             alert('Hello World');
-            setCount(count + 1);
         }
     });
   }
