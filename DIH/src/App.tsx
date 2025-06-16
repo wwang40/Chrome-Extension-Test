@@ -1,21 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 
 function App() {
-  const [DIH, toggleDIH] = useState(false)
+  const [DIH, setDIH] = useState(false);
 
   const onclick = async () => {
-    let [tab] = await chrome.tabs.query({active: true});
-        chrome.scripting.executeScript({
-        target: {tabId: tab.id!},
+    const newValue = !DIH;
+    setDIH(newValue);
+
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (newValue) {
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id! },
+        files: ['injector.js'],
+      });
+    } else {
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id! },
         func: () => {
-            toggleDIH(!DIH)
-            alert('Hello World');
-        }
-    });
-  }
+          const el = document.getElementById('dih-extension-root');
+          if (el) el.remove();
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -30,7 +41,7 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={onclick}>
-          DIH is currently: {DIH}
+          DIH is currently: {DIH ? 'ON' : 'OFF'}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
@@ -40,7 +51,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
