@@ -7,25 +7,7 @@ function App() {
   const [DIH, setDIH] = useState(false);
 
   const onclick = async () => {
-    const newValue = !DIH;
-    setDIH(newValue);
-
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    if (newValue) {
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id! },
-        files: ['injector.js'],
-      });
-    } else {
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id! },
-        func: () => {
-          const el = document.getElementById('dih-extension-root');
-          if (el) el.remove();
-        },
-      });
-    }
+    setDIH(!DIH);
   };
 
   return (

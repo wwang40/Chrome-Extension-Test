@@ -17,11 +17,18 @@
     "http://*/*",
     "https://*/*"
   ],
-  "content-scripts": [
+  "content_scripts": [
     {
-      "resources": ["injector.js"],
       "matches": ["<all_urls>"],
-      "type": ["module"]
+      "js": ["initializeUI.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+    "web_accessible_resources": [
+    {
+      "resources": ["/react/index.js", "/react/vendor.js", "/react/index.css"],
+      "matches": ["<all_urls>"]
     }
   ]
 }

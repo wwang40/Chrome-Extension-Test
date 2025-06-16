@@ -1,26 +1,17 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
+import { defineConfig } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import react from '@vitejs/plugin-react'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
   build: {
     rollupOptions: {
-      input: {
-        popup: resolve(__dirname, 'index.html'),
-        injector: resolve(__dirname, 'src/injector.tsx'),
-      },
       output: {
-        manualChunks: undefined,
-        entryFileNames: '[name].js', 
-      }
+        entryFileNames: `react/[name].js`,
+        chunkFileNames: `react/[name].js`,
+        assetFileNames: `react/[name].[ext]`,
+      },
     },
-    outDir: 'dist',
-    emptyOutDir: true,
-    minify: false
-  }
-});
+  },
+})
