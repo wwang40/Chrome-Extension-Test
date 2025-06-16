@@ -1,17 +1,34 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
   const [DIH, toggleDIH] = useState(false)
   const [DIH_STRING, toggleDIH_String] = useState("OFF")
 
+  useEffect(() => { //Fetch DIH variable from local storage
+    chrome.storage.local.get(['DIH'], (result) => {
+      const dihValue = result.DIH ?? false; //Default set to false
+      toggleDIH(dihValue);
+      toggleDIH_String(dihValue ? "ON" : "OFF")
+    })
+  }, []);
+
   const onclick = async () => {
           toggleDIH(!DIH)
           if (DIH) {
-            toggleDIH_String("OFF")
+            console.log("AAAAA");
+            chrome.storage.local.set({DIH: false}, () => {
+              toggleDIH_String("OFF")
+              chrome.runtime.sendMessage({ type: 'DIH_UPDATE', value: false });
+              console.log("DIH set to false");
+            });
           }
           else {
-            toggleDIH_String("ON")
+            chrome.storage.local.set({DIH: true}, () => {
+              toggleDIH_String("ON")
+              chrome.runtime.sendMessage({ type: 'DIH_UPDATE', value: true });
+              console.log("DIH set to true");
+            });
           }
         };
   
