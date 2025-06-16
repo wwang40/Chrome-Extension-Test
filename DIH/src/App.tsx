@@ -1,43 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
   const [DIH, toggleDIH] = useState(false)
+  const [DIH_STRING, toggleDIH_String] = useState("OFF")
+
+  useEffect(() => { //Fetch DIH variable from local storage
+    chrome.storage.local.get(['DIH'], (result) => {
+      const dihValue = result.DIH ?? false; //Default set to false
+      toggleDIH(dihValue);
+      toggleDIH_String(dihValue ? "ON" : "OFF")
+    })
+  }, []);
 
   const onclick = async () => {
-    let [tab] = await chrome.tabs.query({active: true});
-        chrome.scripting.executeScript({
-        target: {tabId: tab.id!},
-        func: () => {
-            toggleDIH(!DIH)
-            alert('Hello World');
-        }
-    });
-  }
+          toggleDIH(!DIH)
+          if (DIH) {
+            console.log("AAAAA");
+            chrome.storage.local.set({DIH: false}, () => {
+              toggleDIH_String("OFF")
+              chrome.runtime.sendMessage({ type: 'DIH_UPDATE', value: false });
+              console.log("DIH set to false");
+            });
+          }
+          else {
+            chrome.storage.local.set({DIH: true}, () => {
+              toggleDIH_String("ON")
+              chrome.runtime.sendMessage({ type: 'DIH_UPDATE', value: true });
+              console.log("DIH set to true");
+            });
+          }
+        };
+  
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Project DIH</h1>
+      <center><p>Digital Interface Homies</p></center>
       <div className="card">
+
         <button onClick={onclick}>
-          DIH is currently: {DIH}
+          CLICK ME!
         </button>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          DIH is currently: {DIH_STRING}
         </p>
+        
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
