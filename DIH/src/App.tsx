@@ -19,22 +19,18 @@ function App() {
     <>
       <div>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Project DIH</h1>
+      <center><p>Digital Interface Homies</p></center>
       <div className="card">
 
         <button onClick={onclick}>
-          DIH is currently: {DIH_STRING}
+          CLICK ME!
         </button>
         <p>
-          ({DIH.toString()})
+          DIH is currently: {DIH_STRING}
         </p>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
