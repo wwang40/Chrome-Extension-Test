@@ -1,31 +1,41 @@
-chrome.storage.local.get(['DIH'], (result) => {
-      if (result.DIH) {
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === "DIH_UPDATE") {
+        const DIH = document.getElementById("test")
 
-        //Add custom CSS 
-        const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
+        if (message.value) { // DIH is ON
+            if (!DIH) { // DIH not already made
+                //Inject CSS code into document
+                const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
 
-        function Create_Custom_Element(tag, attr_name, id) {
-            const custom_element = document.createElement(tag)
-            custom_element.className = attr_name
-            if (id) custom_element.id = id
-            document.body.append(custom_element)
-        }
+                Add_Custom_CSS(`
+                .square {
+                    position: fixed;
+                    bottom: 5px;
+                    right: 5px;
+                    width: 50px;
+                    height: 50px;
+                    background-color: blue;
+                    z-index: 9999; /* Come to front of page */
+                }
+                `)
+                
+                function Create_Custom_Element(tag, attr_name, id) {
+                    const custom_element = document.createElement(tag);
+                    custom_element.className = attr_name;
+                    if (id) custom_element.id = id;
+                    document.body.append(custom_element);
+                    return custom_element;
+                }
 
-        Add_Custom_CSS(`
-            .square {
-                position: absolute;
-                bottom: 5px;
-                right: 5px;
-                width: 50px;
-                height: 50px;
-                background-color: blue;
+                dragElement(Create_Custom_Element("div", "square", "test")) // Make a draggable element
+            } else { // DIH is ON and has previously been made
+                DIH.style.display = 'block'
             }
-        `)
-
-        Create_Custom_Element("div", "square", "test")
-
-        // Make the DIV element draggable:
-        dragElement(document.getElementById("test"));
+        } else { // DIH is OFF but has previously been made
+            if (DIH) {
+                DIH.style.display = 'none'
+            }
+        }
 
         function dragElement(elmnt) {
             var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -64,4 +74,5 @@ chrome.storage.local.get(['DIH'], (result) => {
             }
         }
     }
+
 });
