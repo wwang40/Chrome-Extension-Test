@@ -16,7 +16,6 @@ function App() {
   const onclick = async () => {
           toggleDIH(!DIH)
           if (DIH) {
-            console.log("AAAAA");
             chrome.storage.local.set({DIH: false}, () => {
               toggleDIH_String("OFF")
               chrome.runtime.sendMessage({ type: 'DIH_UPDATE', value: false });
