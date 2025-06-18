@@ -7,6 +7,7 @@ chrome.storage.local.set({DIH: false,
     return chrome.storage.local.get(["DIH"])})
 
 // Listen for messages from popup
+// Note: When user reboots their digital pet, it should respawn in a set location in case they've put their pet in an inaccessible area
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'DIH_UPDATE') {
     console.log("Service worker received DIH update:", request.value);
