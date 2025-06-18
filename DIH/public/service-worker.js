@@ -1,6 +1,6 @@
 chrome.storage.local.set({DIH: false,
-                          positionX: `5px`,
-                          positionY: `5px`
+                          positionX: `1450px`,
+                          positionY: `600px`
                           }) // define DIH variable to false
   .then(() => {
     console.log("DIH is set to false");
@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Service worker received DIH update:", request.value);
 
     //Notify tabs to update DIH display
-    chrome.tabs.query({}, (tabs) => {
+    chrome.tabs.query({currentWindow: true}, (tabs) => {
       tabs.forEach(tab => {
 
         if (tab.url && tab.url.startsWith('http')) {
@@ -29,7 +29,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-chrome.storage.onChanged.addListener(({positionX, positionY}) => {
-    console.log(positionX)
-    console.log(positionY)
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName !== "local") return;
+
+  if (changes.positionX || changes.positionY) {
+
+    //Notify tabs to update DIH display
+    chrome.tabs.query({currentWindow: true}, (tabs) => {
+      tabs.forEach(tab => {
+
+        if (tab.url && tab.url.startsWith('http')) {
+          chrome.tabs.sendMessage(tab.id, {
+            type: "POS_UPDATE"
+          })
+        }
+      });
+    });
+  }
+
+
 })

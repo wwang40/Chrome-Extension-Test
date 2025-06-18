@@ -68,18 +68,26 @@ chrome.runtime.onMessage.addListener((message) => {
                 // set the element's new position:
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                chrome.storage.local.set({
-                    positionX: elmnt.style.left,
-                    positionY: elmnt.style.top
-                })
             }
 
             function closeDragElement() {
                 // stop moving when mouse button is released:
                 document.onmouseup = null;
                 document.onmousemove = null;
+                chrome.storage.local.set({
+                    positionX: elmnt.style.left,
+                    positionY: elmnt.style.top
+
+                })
             }
         }
+    }
+
+    else if (message.type === "POS_UPDATE") {
+        chrome.storage.local.get(['positionX', 'positionY'], (result) => {
+            document.getElementById("test").style.top = result.positionY
+            document.getElementById("test").style.left = result.positionX
+        });
     }
 
 });
