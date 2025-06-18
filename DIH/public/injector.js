@@ -31,6 +31,9 @@ chrome.runtime.onMessage.addListener((message) => {
 
                 dragElement(Create_Custom_Element("div", "square", "test")) // Make a draggable element
 
+                //FRAMEWORK FOR NEXT STEP:
+                //dialogueTree(CUSTOM ELEMENT)
+
             } else { // DIH is ON and has previously been made
                 DIH.style.display = 'block'
             }
@@ -81,6 +84,15 @@ chrome.runtime.onMessage.addListener((message) => {
                 })
             }
         }
+
+        //FRAMEWORK
+        //dialogueTree(element, # (this will probably be a list of strings with 1 per feature))
+        //Gives the element a dialogue tree with # interactables. 
+        //element.onmousedown => spawn a # of interactables depending on element's position (mimic a dialogue bubble)
+
+        //interactable(dialogue, action)
+        //Combine with dialogueTree()?
+        //when dialogue is selected/clicked, action will happen. First work on making text appear, then images, then audio, etc.
     }
 
     else if (message.type === "POS_UPDATE") {
