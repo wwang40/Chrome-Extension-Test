@@ -4,20 +4,22 @@ chrome.runtime.onMessage.addListener((message) => {
 
         if (message.value) { // DIH is ON
             if (!DIH) { // DIH not already made
-                //Inject CSS code into document
-                const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
+                chrome.storage.local.get(['positionX', 'positionY'], (result) => {
+                    //Inject CSS code into document
+                    const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
 
-                Add_Custom_CSS(`
-                .square {
-                    position: fixed;
-                    bottom: 5px;
-                    right: 5px;
-                    width: 50px;
-                    height: 50px;
-                    background-color: blue;
-                    z-index: 9999; /* Come to front of page */
-                }
+                    Add_Custom_CSS(`
+                        .square {
+                            position: fixed;
+                            ${`left: ${result.positionX};`}
+                            ${`top: ${result.positionY};`}
+                            width: 50px;
+                            height: 50px;
+                            background-color: blue;
+                            z-index: 9999; /* Come to front of page */
+                        }
                 `)
+                })
                 
                 function Create_Custom_Element(tag, attr_name, id) {
                     const custom_element = document.createElement(tag);
@@ -28,6 +30,7 @@ chrome.runtime.onMessage.addListener((message) => {
                 }
 
                 dragElement(Create_Custom_Element("div", "square", "test")) // Make a draggable element
+
             } else { // DIH is ON and has previously been made
                 DIH.style.display = 'block'
             }
@@ -65,6 +68,10 @@ chrome.runtime.onMessage.addListener((message) => {
                 // set the element's new position:
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                chrome.storage.local.set({
+                    positionX: elmnt.style.left,
+                    positionY: elmnt.style.top
+                })
             }
 
             function closeDragElement() {
