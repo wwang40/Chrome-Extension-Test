@@ -22,22 +22,5 @@ chrome.storage.local.get(['DIH'], (result) => {
         `)
 
         Create_Custom_Element("div", "square")
-
-        Create_Custom_Element("div", "square")
       }
     });
-
-/*
-const body = document.querySelector('body')
-const app = document.createElement('div')
-
-app.id = 'react-root'
-
-if(body){
-    body.prepend(app)
-}
-
-const container = document.getElementById('react-root');
-const root = createRoot(container);
-root.render(<App/>)
-*/
