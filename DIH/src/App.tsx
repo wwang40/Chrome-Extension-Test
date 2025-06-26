@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+//import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 
 function App() {
@@ -33,19 +34,17 @@ function App() {
 
   return (
     <>
+      <div className="bg-gray-800 w-sm h-80" id='button_block'>
+      <center><p className='bg-gray-600 border-white border-2 text-4xl ml-6 mr-6 mb-32 mt-16' id='home_page_title'>Digital Interface Homies</p></center>
       <div>
-      </div>
-      <h1 className='text-red-500'>Project DIH</h1>
-      <center><p>Digital Interface Homies</p></center>
-      <div className="card">
         
-        <button onClick={() => DIH_STRING === "OFF" ? toggleDIH_String("ON"):toggleDIH_String("OFF")}>
+        <button className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300'id='enable_dih' onClick={() => DIH_STRING === "OFF" ? toggleDIH_String("ON"):toggleDIH_String("OFF")}>
           CLICK ME!
         </button>
         <p>
           DIH is currently: {DIH_STRING}
         </p>
-        
+        </div>
       </div>
     </>
   )
