@@ -1,10 +1,15 @@
 //import { useState, useEffect } from 'react'
-import { useState } from 'react'
+//import { useState } from 'react'
 import './App.css'
+import { Button } from './components/ui/button'
+import { Link } from 'react-router'
+import { Switch } from './components/ui/switch'
+import { Label } from './components/ui/label'
+import { useState } from 'react'
 
 function App() {
-  // const [DIH, toggleDIH] = useState(false)
-  const [DIH_STRING, toggleDIH_String] = useState("OFF")
+  const [DIH, toggleDIH] = useState(false)
+  //const [DIH_STRING, toggleDIH_String] = useState("OFF")
 
   // useEffect(() => { //Fetch DIH variable from local storage
   //   chrome.storage.local.get(['DIH'], (result) => {
@@ -32,21 +37,49 @@ function App() {
   //         }
   //       };
 
-  return (
-    <>
-      <div className="bg-gray-800 w-sm h-80" id='button_block'>
-      <center><p className='bg-gray-600 border-white border-2 text-4xl ml-6 mr-6 mb-32 mt-16' id='home_page_title'>Digital Interface Homies</p></center>
-      <div>
+return (
+    <div className="bg-[#5a1e1a] min-h-screen flex items-center justify-center">
+      <div className="bg-[#2b2b2b] rounded-lg border border-white p-6 w-[400px] space-y-6 shadow-lg">
         
-        <button className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300'id='enable_dih' onClick={() => DIH_STRING === "OFF" ? toggleDIH_String("ON"):toggleDIH_String("OFF")}>
-          CLICK ME!
-        </button>
-        <p>
-          DIH is currently: {DIH_STRING}
-        </p>
+        {/* Project DIH Title */}
+        <div className="flex justify-center">
+          <Button
+            disabled
+            className="bg-[#3d3d3d] text-white text-3xl font-bold rounded-lg px-6 py-2 shadow border border-black"
+          >
+            Project DIH
+          </Button>
+        </div>
+
+        {/* Toggle Switch */}
+        <div className="bg-gray-500 rounded-lg px-4 py-4 space-y-1 flex items-center justify-between">
+          <div>
+            <Label className="text-white text-md font-medium">Enable DIH</Label>
+            <p className="text-gray-300 text-xs">ALLOWS DIH ON SCREEN</p>
+          </div>
+          <Switch checked={DIH} onCheckedChange={toggleDIH} />
+        </div>
+
+        {/* Gatcha Button */}
+        <div className="flex justify-center">
+          <Button
+            asChild
+            className="bg-[#3d3d3d] text-white text-2xl font-bold rounded-lg px-10 py-3 shadow border border-black"
+          >
+            <Link to="/gatcha">GATCHA</Link>
+          </Button>
+        </div>
+
+        {/* Settings Button */}
+        <div className="flex justify-center">
+          <Button asChild
+            className="bg-[#3d3d3d] text-white text-sm font-bold rounded px-4 py-1 shadow border border-black"
+          >
+            <Link to="/settings">Settings</Link>
+          </Button>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
