@@ -22,7 +22,7 @@
         "https://*/*"
     ],
     "content_scripts":[{
-        "js": ["injector.js"],
+        "js": ["POOF.js", "injector.js"],
         "matches": [
             "http://*.google.com/*",
             "https://*/*" 

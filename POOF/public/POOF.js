@@ -1,0 +1,96 @@
+class POOF {
+    constructor(name, img, rarity, features, description) {
+        if (!(name & img & rarity & features & description)) {
+            this.name = "Testy";
+            this.img = "test.png";
+            this.rarity = 1;
+            this.features = ["Joke", "Words of Affirmation", "Cat Picturew"]
+            this.description = "I am a POOF whose only purpose in life is to serve as a placeholder for testing."
+        }
+
+        this.name = name;
+        this.img = img;
+        this.rarity = rarity;
+        this.features = features
+        this.description = description
+        this.css_element;
+    }
+
+    getName() {
+        return this.name;
+    }
+    getRarity() {
+        return this.rarity;
+    }
+    getFeatures(num) {
+        return this.features[num];
+    }
+    getDescription() {
+        return this.description;
+    }
+
+    setUpCSS(positionX, positionY, document) {
+        const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
+
+            Add_Custom_CSS(`
+                .square {
+                    position: fixed;
+                    ${`left: ${positionX};`}
+                    ${`top: ${positionY};`}
+                    width: 50px;
+                    height: 50px;
+                    background-color: blue;
+                    z-index: 9999; /* Come to front of page */
+                }
+            `)
+    }
+
+    Create_Custom_Element(tag, attr_name, id, text) {
+        const custom_element = document.createElement(tag);
+        custom_element.className = attr_name;
+        if (id) custom_element.id = id;
+        if (text) custom_element.textContent = text;
+        document.body.append(custom_element);
+        this.css_element = custom_element;
+        return custom_element;
+    }
+
+    dragElement() {
+        const elmnt = this.css_element;
+
+        elmnt.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // Calculate new position
+            const newX = e.clientX;
+            const newY = e.clientY;
+            
+            // Update position
+            elmnt.style.left = (newX - 50) + "px"; // Subtract numbers so that dragging will snap pet to your cursor
+            elmnt.style.top = (newY - 125) + "px";
+            
+            // Reset reference position
+            pos1 = e.clientX;
+            pos2 = e.clientY;
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+            chrome.storage.local.set({
+                positionX: elmnt.style.left,
+                positionY: elmnt.style.top
+            });
+        }
+    }
+
+}
