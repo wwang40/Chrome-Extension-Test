@@ -1,5 +1,6 @@
 chrome.runtime.onMessage.addListener((message) => {
     if (message.type === "DIH_UPDATE") {
+        //Receive instruction to activate or deactive extension
         const DIH = document.getElementById("test")
 
         if (message.value) { // DIH is ON
@@ -18,18 +19,25 @@ chrome.runtime.onMessage.addListener((message) => {
                             background-color: blue;
                             z-index: 9999; /* Come to front of page */
                         }
-                `)
+                    `)
                 })
                 
-                function Create_Custom_Element(tag, attr_name, id) {
+                function Create_Custom_Element(tag, attr_name, id, text) {
                     const custom_element = document.createElement(tag);
                     custom_element.className = attr_name;
                     if (id) custom_element.id = id;
+                    if (text) custom_element.textContent = text;
                     document.body.append(custom_element);
                     return custom_element;
                 }
 
-                dragElement(Create_Custom_Element("div", "square", "test")) // Make a draggable element
+                const button = Create_Custom_Element("div", "square", "test", "CLICK ME!")
+                dragElement(button)
+                button.addEventListener("click", () => {
+                    alert("You clicked the square!")
+                });
+
+                
 
                 //FRAMEWORK FOR NEXT STEP:
                 //dialogueTree(CUSTOM ELEMENT)
