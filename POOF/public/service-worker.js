@@ -1,24 +1,24 @@
-chrome.storage.local.set({DIH: false,
+chrome.storage.local.set({POOF: false,
                           positionX: `1450px`,
                           positionY: `600px`
-                          }) // define DIH variable to false
+                          }) // define POOF variable to false
   .then(() => {
-    console.log("DIH is set to false");
-    return chrome.storage.local.get(["DIH"])})
+    console.log("POOF is set to false");
+    return chrome.storage.local.get(["POOF"])})
 
 // Listen for messages from popup
 // Note: When user reboots their digital pet, it should respawn in a set location in case they've put their pet in an inaccessible area
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'DIH_UPDATE') {
-    console.log("Service worker received DIH update:", request.value);
+  if (request.type === 'POOF_UPDATE') {
+    console.log("Service worker received POOF update:", request.value);
 
-    //Notify tabs to update DIH display
+    //Notify tabs to update POOF display
     chrome.tabs.query({currentWindow: true}, (tabs) => {
       tabs.forEach(tab => {
 
         if (tab.url && tab.url.startsWith('http')) {
           chrome.tabs.sendMessage(tab.id, {
-            type: "DIH_UPDATE",
+            type: "POOF_UPDATE",
             value: request.value
           }).catch(error => {
             console.log('Could not send update to ' + tab.url)
@@ -35,7 +35,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
   if (changes.positionX || changes.positionY) {
 
-    //Notify tabs to update DIH display
+    //Notify tabs to update POOF display
     chrome.tabs.query({currentWindow: true}, (tabs) => {
       tabs.forEach(tab => {
 
