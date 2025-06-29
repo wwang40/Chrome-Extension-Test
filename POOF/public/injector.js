@@ -14,6 +14,8 @@ chrome.runtime.onMessage.addListener((message) => {
                 onDisplay.Create_Custom_Element("div", "square", "test", "CLICK ME!")
 
                 onDisplay.dragElement()
+
+                onDisplay.dialogueElement()
                 
 
                 //FRAMEWORK FOR NEXT STEP:
@@ -31,7 +33,7 @@ chrome.runtime.onMessage.addListener((message) => {
 
 
         //FRAMEWORK
-        //dialogueTree(element, # (this will probably be a list of strings with 1 per feature))
+        //difogueTree(element, # (this will probably be a list of strings with 1 per feature))
         //Gives the element a dialogue tree with # interactables. 
         //element.onmousedown => spawn a # of interactables depending on element's position (mimic a dialogue bubble)
 

@@ -77,10 +77,6 @@ class POOF {
             // Update position
             elmnt.style.left = (newX - 50) + "px"; // Subtract numbers so that dragging will snap pet to your cursor
             elmnt.style.top = (newY - 125) + "px";
-            
-            // Reset reference position
-            pos1 = e.clientX;
-            pos2 = e.clientY;
         }
 
         function closeDragElement() {
@@ -93,4 +89,38 @@ class POOF {
         }
     }
 
+    dialogueElement() {
+        const element = this.css_element;
+        let startTime = 0;
+        let startX = 0;
+        let startY = 0;
+
+        // Store references to remove listeners later if needed
+        const mouseDownHandler = (e) => {
+            startTime = Date.now();
+            startX = parseInt(element.style.left) || 0;
+            startY = parseInt(element.style.top) || 0;
+        };
+
+        const clickHandler = (e) => {
+            const duration = Date.now() - startTime;
+            const currentX = parseInt(element.style.left) || 0;
+            const currentY = parseInt(element.style.top) || 0;
+
+            if (duration < 150 && 
+                Math.abs(currentX - startX) < 50 && 
+                Math.abs(currentY - startY) < 50) {
+                alert("You clicked the square! Duration: " + duration + "ms");
+            }
+        };
+
+        element.addEventListener("mousedown", mouseDownHandler);
+        element.addEventListener("click", clickHandler);
+
+        // Optional: Cleanup method
+        this.cleanupDialogueListeners = () => {
+            element.removeEventListener("mousedown", mouseDownHandler);
+            element.removeEventListener("click", clickHandler);
+        };
+    }
 }
