@@ -1,0 +1,31 @@
+{
+    "manifest_version" : 3,
+    "name" : "POOF",
+    "version": "1.0.0",
+    "icons": {
+        "16": "iconPOOF.png"
+    },
+    "background": {
+        "service_worker": "service-worker.js",
+        "type": "module"
+    },
+    "action":{
+        "default_popup": "index.html"
+    },
+    "permissions": [
+        "scripting",
+        "storage",
+        "tabs"
+    ],
+    "host_permissions":[
+        "http://*/*",
+        "https://*/*"
+    ],
+    "content_scripts":[{
+        "js": ["injector.js"],
+        "matches": [
+            "http://*.google.com/*",
+            "https://*/*" 
+        ]
+    }]
+}
