@@ -34,13 +34,19 @@ class POOF {
 
             Add_Custom_CSS(`
                 .square {
+
+                    all: initial;
                     position: fixed;
+                    width: 50px !important;
+                    height: 50px !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    background: blue;
+                    z-index: 2147483647; /* Maximum possible */
+                    transform: translateZ(0);
+                    box-sizing: content-box !important;
                     ${`left: ${positionX};`}
                     ${`top: ${positionY};`}
-                    width: 50px;
-                    height: 50px;
-                    background-color: blue;
-                    z-index: 9999; /* Come to front of page */
                 }
             `)
     }
@@ -75,8 +81,8 @@ class POOF {
             const newY = e.clientY;
             
             // Update position
-            elmnt.style.left = (newX - 50) + "px"; // Subtract numbers so that dragging will snap pet to your cursor
-            elmnt.style.top = (newY - 125) + "px";
+            elmnt.style.left = (newX - 10) + "px";
+            elmnt.style.top = (newY - 20) + "px";
         }
 
         function closeDragElement() {
