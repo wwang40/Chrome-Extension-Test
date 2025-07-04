@@ -4,7 +4,7 @@ class POOF {
             this.name = "Testy";
             this.img = "test.png";
             this.rarity = 1;
-            this.features = ["Joke", "Words of Affirmation", "Cat Picturew"]
+            this.features = ["Joke", "Words of Affirmation", "Cat Picture"]
             this.description = "I am a POOF whose only purpose in life is to serve as a placeholder for testing."
         }
 
@@ -29,6 +29,7 @@ class POOF {
         return this.description;
     }
 
+    //Replace square with image design
     setUpCSS(positionX, positionY, document) {
         const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
 
@@ -51,6 +52,7 @@ class POOF {
             `)
     }
 
+    // Adds HTML element to webpage which we can change through functions
     Create_Custom_Element(tag, attr_name, id, text) {
         const custom_element = document.createElement(tag);
         custom_element.className = attr_name;
@@ -58,9 +60,16 @@ class POOF {
         if (text) custom_element.textContent = text;
         document.body.append(custom_element);
         this.css_element = custom_element;
-        return custom_element;
     }
 
+    hideElement() {
+        this.css_element.style.display = 'none';
+    }
+    showElement() {
+        this.css_element.style.display = 'block';
+    }
+
+    // Adds drag functionality to HTML component
     dragElement() {
         const elmnt = this.css_element;
 
@@ -95,38 +104,65 @@ class POOF {
         }
     }
 
-    dialogueElement() {
+    // Add click event to HTML component
+    dialogueElement(document) {
         const element = this.css_element;
         let startTime = 0;
         let startX = 0;
         let startY = 0;
 
-        // Store references to remove listeners later if needed
+        // Store references to XY positions
         const mouseDownHandler = (e) => {
             startTime = Date.now();
             startX = parseInt(element.style.left) || 0;
             startY = parseInt(element.style.top) || 0;
         };
 
+        // Store reference to duration of mouse held down
         const clickHandler = (e) => {
             const duration = Date.now() - startTime;
             const currentX = parseInt(element.style.left) || 0;
             const currentY = parseInt(element.style.top) || 0;
 
+            // Calculate if click or drag
             if (duration < 150 && 
                 Math.abs(currentX - startX) < 50 && 
                 Math.abs(currentY - startY) < 50) {
-                alert("You clicked the square! Duration: " + duration + "ms");
+                    
+                this.handleFeatureDisplay(document)
+                
+                //alert("You clicked the square! Duration: " + duration + "ms");
             }
         };
 
+
+        // Add listeners to component
         element.addEventListener("mousedown", mouseDownHandler);
         element.addEventListener("click", clickHandler);
 
-        // Optional: Cleanup method
         this.cleanupDialogueListeners = () => {
             element.removeEventListener("mousedown", mouseDownHandler);
             element.removeEventListener("click", clickHandler);
         };
     }
+
+    setUpFeatures() {
+        for (let i = 0; i < this.features.length; i ++) {
+            let feature = new Feature(this.features[i].toString, i);
+            feature.Create_Custom_Element(this.features[i].toString());
+            this.css_element.appendChild(feature.getCSS())
+        }
+    }
+
+    handleFeatureDisplay(document) {
+        const elements = document.getElementsByClassName("feature");
+        Array.from(elements).forEach(element => {
+            if (element.style.display == "block") {
+                element.style.display = "none"
+            } else {
+                element.style.display = "block"
+            }
+        })
+    }
+    
 }
