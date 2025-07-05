@@ -3,7 +3,8 @@
     "name" : "POOF",
     "version": "1.0.0",
     "icons": {
-        "16": "iconPOOF.png"
+        "16": "iconPOOF.png",
+        "48": "iconPOOF.png"
     },
     "background": {
         "service_worker": "service-worker.js",
