@@ -1,9 +1,9 @@
 {
     "manifest_version" : 3,
-    "name" : "Project DIH",
+    "name" : "Project POOF",
     "version": "1.0.0",
     "icons": {
-        "16": "iconDIH.png"
+        "16": "iconPOOF.png"
     },
     "background": {
         "service_worker": "service-worker.js",

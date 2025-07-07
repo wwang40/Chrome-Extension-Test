@@ -1,9 +1,9 @@
 chrome.runtime.onMessage.addListener((message) => {
-    if (message.type === "DIH_UPDATE") {
-        const DIH = document.getElementById("test")
+    if (message.type === "POOF_UPDATE") {
+        const POOF = document.getElementById("test")
 
-        if (message.value) { // DIH is ON
-            if (!DIH) { // DIH not already made
+        if (message.value) { // POOF is ON
+            if (!POOF) { // POOF not already made
                 chrome.storage.local.get(['positionX', 'positionY'], (result) => {
                     //Inject CSS code into document
                     const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
@@ -34,12 +34,12 @@ chrome.runtime.onMessage.addListener((message) => {
                 //FRAMEWORK FOR NEXT STEP:
                 //dialogueTree(CUSTOM ELEMENT)
 
-            } else { // DIH is ON and has previously been made
-                DIH.style.display = 'block'
+            } else { // POOF is ON and has previously been made
+                POOF.style.display = 'block'
             }
-        } else { // DIH is OFF but has previously been made
-            if (DIH) {
-                DIH.style.display = 'none'
+        } else { // POOF is OFF but has previously been made
+            if (POOF) {
+                POOF.style.display = 'none'
             }
         }
 
