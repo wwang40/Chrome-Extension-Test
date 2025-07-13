@@ -1,15 +1,15 @@
 class POOF {
     constructor(name, img, rarity, features, description) {
         if (!(name & img & rarity & features & description)) {
-            this.name = "Testy";
-            this.img = "test.png";
+            this.name = "POOF1";
+            this.img = "POOF1.png";
             this.rarity = 1;
             this.features = ["Joke", "Words of Affirmation", "Cat Picture"]
             this.description = "I am a POOF whose only purpose in life is to serve as a placeholder for testing."
         }
 
         this.name = name;
-        this.img = img;
+        this.img = chrome.runtime.getURL(`assets/${img.replace('assets/', '')}`);
         this.rarity = rarity;
         this.features = features
         this.description = description
@@ -33,8 +33,10 @@ class POOF {
     setUpCSS(positionX, positionY, document) {
         const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
 
+            const poofSprite = this.img.replace(/"/g, '\\"');
+            console.log('Image path:', poofSprite.replace(/"/g, '\\"'));
             Add_Custom_CSS(`
-                .square {
+                .poof {
 
                     all: initial;
                     position: fixed;
@@ -42,12 +44,16 @@ class POOF {
                     height: 50px !important;
                     margin: 0 !important;
                     padding: 0 !important;
-                    background: blue;
+                    background-image: url(' ${poofSprite}');
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
                     z-index: 2147483647; /* Maximum possible */
                     transform: translateZ(0);
                     box-sizing: content-box !important;
                     ${`left: ${positionX};`}
                     ${`top: ${positionY};`}
+                    pointer-events: auto;
                 }
             `)
     }
@@ -55,9 +61,9 @@ class POOF {
     // Adds HTML element to webpage which we can change through functions
     Create_Custom_Element(tag, attr_name, id, text) {
         const custom_element = document.createElement(tag);
-        custom_element.className = attr_name;
+        custom_element.className = attr_name || 'poof';
         if (id) custom_element.id = id;
-        if (text) custom_element.textContent = text;
+        //if (text) custom_element.textContent = text; Commented off for testing
         document.body.append(custom_element);
         this.css_element = custom_element;
     }
@@ -80,6 +86,9 @@ class POOF {
             e.preventDefault();
             document.onmouseup = closeDragElement;
             document.onmousemove = elementDrag;
+            
+
+            displaySprite(e);
         }
 
         function elementDrag(e) {
@@ -90,8 +99,8 @@ class POOF {
             const newY = e.clientY;
             
             // Update position
-            elmnt.style.left = (newX - 10) + "px";
-            elmnt.style.top = (newY - 20) + "px";
+            elmnt.style.left = (newX - 20) + "px";
+            elmnt.style.top = (newY - 5) + "px";
         }
 
         function closeDragElement() {
@@ -101,6 +110,18 @@ class POOF {
                 positionX: elmnt.style.left,
                 positionY: elmnt.style.top
             });
+        }
+
+        const displaySprite = (e) => {
+            const dragSprite = chrome.runtime.getURL(`assets/${this.name}_drag.gif`);
+
+            console.log('GIF path: ' + dragSprite);
+            this.css_element.style.backgroundImage = `url("${dragSprite}")`;
+        };
+
+        elmnt.onmouseup = (e) => {
+            elmnt.style.backgroundImage = `url("${this.img}")`;
+            console.log("Returned to original sprite: " + this.img)
         }
     }
 
@@ -164,5 +185,7 @@ class POOF {
             }
         })
     }
+
+
     
 }
