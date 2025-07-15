@@ -11,6 +11,27 @@ class Feature {
         return this.css_element;
     }
 
+    // Parser for all features
+    getFeature(featureName) {
+        switch(featureName) {
+            case "Joke":
+                // Random joke
+                console.log("joke here")
+                return;
+            case "Words of Affirmation":
+                //
+                console.log("Your enemies will PERISH")
+                return;
+            case "Cat Picture":
+                // 
+                console.log(" : 3 ")
+                return;
+            default:
+                console.log("Feature does not exist");
+                return;
+        }
+    }
+
     // Adds HTML element to webpage which we can change through functions
     Create_Custom_Element(name) {
         const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
@@ -40,10 +61,12 @@ class Feature {
 
         custom_element.style.top = (this.num * 20).toString() + "px";
 
+        custom_element.addEventListener("click", () => {
+            this.getFeature(name);
+        });
+
         this.css_element = custom_element;
     }
-
-    
 
 
 
