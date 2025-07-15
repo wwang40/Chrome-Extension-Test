@@ -1,6 +1,11 @@
 chrome.storage.local.set({POOF: false,
+<<<<<<< HEAD
+                          positionX: `1450px`,
+                          positionY: `600px`
+=======
                           positionX: `1405px`,
                           positionY: `540px`
+>>>>>>> dev
                           }) // define POOF variable to false
   .then(() => {
     console.log("POOF is set to false");
