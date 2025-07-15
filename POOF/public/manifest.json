@@ -1,10 +1,17 @@
 {
     "manifest_version" : 3,
+<<<<<<< HEAD
+    "name" : "Project POOF",
+    "version": "1.0.0",
+    "icons": {
+        "16": "iconPOOF.png"
+=======
     "name" : "POOF",
     "version": "1.0.0",
     "icons": {
         "16": "iconPOOF.png",
         "48": "iconPOOF.png"
+>>>>>>> dev
     },
     "background": {
         "service_worker": "service-worker.js",
