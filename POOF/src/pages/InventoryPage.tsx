@@ -5,12 +5,11 @@ import { Link } from "react-router"
 import { useNavigate } from "react-router"
 
 const InventoryPage = () => {
-  const navigate = useNavigate();
-  const inventory = new Array(20);
+  const navigate = useNavigate();   
   return (
     <>
-      <div className="bg-[#5a1e1a] min-h-screen flex items-center justify-center">
-      <div className="bg-[#2b2b2b] rounded-lg border border-white p-6 w-[400px] space-y-6 shadow-lg items-center">
+      <div className="bg-[#5a1e1a] h-[496] w-[400] min-h-screen flex items-center justify-center">
+      <div className="bg-[#2b2b2b] rounded-lg border border-white p-6 h-[496] w-[400] space-y-6 shadow-lg items-center">
 
         {/* Top bar */}
       <div className="w-full flex justify-between items-center px-4">
