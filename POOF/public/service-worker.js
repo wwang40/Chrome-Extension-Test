@@ -1,6 +1,6 @@
 chrome.storage.local.set({POOF: false,
-                          positionX: `1450px`,
-                          positionY: `600px`
+                          positionX: `1405px`,
+                          positionY: `540px`
                           }) // define POOF variable to false
   .then(() => {
     console.log("POOF is set to false");
@@ -30,6 +30,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
+// Listen for refreshed tabs
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+  if (changeInfo.status === 'complete' && tab.url && tab.url.startsWith('http')) {
+    chrome.storage.local.get(["POOF"], function(result) {
+      chrome.tabs.sendMessage(tabId, {
+        type: "POOF_UPDATE",
+        value: result.POOF
+      })
+    });
+  }
+});
+
+// Listen for position updates
 chrome.storage.onChanged.addListener((changes, areaName) => {
   if (areaName !== "local") return;
 

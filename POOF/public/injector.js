@@ -1,105 +1,39 @@
+const onDisplay = new POOF("POOF1", "POOF1.png", 1, ["Joke", "Words of Affirmation", "Cat Picture"], "I am a POOF whose only purpose in life is to serve as a placeholder for testing.");
+
 chrome.runtime.onMessage.addListener((message) => {
     if (message.type === "POOF_UPDATE") {
         //Receive instruction to activate or deactive extension
-        const POOF = document.getElementById("test")
+        const POOF_ON = document.getElementById("test")
 
         if (message.value) { // POOF is ON
-            if (!POOF) { // POOF not already made
+            if (!POOF_ON) { // POOF not already made
                 chrome.storage.local.get(['positionX', 'positionY'], (result) => {
                     //Inject CSS code into document
-                    const Add_Custom_CSS = css => document.head.appendChild(document.createElement("style")).innerHTML = css
-
-                    Add_Custom_CSS(`
-                        .square {
-                            position: fixed;
-                            ${`left: ${result.positionX};`}
-                            ${`top: ${result.positionY};`}
-                            width: 50px;
-                            height: 50px;
-                            background-color: blue;
-                            z-index: 9999; /* Come to front of page */
-                        }
-                    `)
+                    onDisplay.setUpCSS(result.positionX, result.positionY, document)
                 })
                 
-                function Create_Custom_Element(tag, attr_name, id, text) {
-                    const custom_element = document.createElement(tag);
-                    custom_element.className = attr_name;
-                    if (id) custom_element.id = id;
-                    if (text) custom_element.textContent = text;
-                    document.body.append(custom_element);
-                    return custom_element;
-                }
+                onDisplay.Create_Custom_Element("div", "poof", "test", onDisplay.getName())
 
-                const button = Create_Custom_Element("div", "square", "test", "CLICK ME!")
-                dragElement(button)
-                button.addEventListener("click", () => {
-                    alert("You clicked the square!")
-                });
+                onDisplay.dragElement()
 
+                onDisplay.setUpFeatures()
+
+                onDisplay.dialogueElement(document)
                 
 
                 //FRAMEWORK FOR NEXT STEP:
                 //dialogueTree(CUSTOM ELEMENT)
 
             } else { // POOF is ON and has previously been made
-                POOF.style.display = 'block'
+                onDisplay.showElement()
             }
         } else { // POOF is OFF but has previously been made
-            if (POOF) {
-                POOF.style.display = 'none'
+            if (POOF_ON) {
+                onDisplay.hideElement()
             }
+            return;
         }
 
-        function dragElement(elmnt) {
-            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-            // Move DIV from anywhere inside the DIV:
-            elmnt.onmousedown = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // get the mouse cursor position at startup:
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                // call a function whenever the cursor moves:
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // calculate the new cursor position:
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                // set the element's new position:
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                // stop moving when mouse button is released:
-                document.onmouseup = null;
-                document.onmousemove = null;
-                chrome.storage.local.set({
-                    positionX: elmnt.style.left,
-                    positionY: elmnt.style.top
-
-                })
-            }
-        }
-
-        //FRAMEWORK
-        //dialogueTree(element, # (this will probably be a list of strings with 1 per feature))
-        //Gives the element a dialogue tree with # interactables. 
-        //element.onmousedown => spawn a # of interactables depending on element's position (mimic a dialogue bubble)
-
-        //interactable(dialogue, action)
-        //Combine with dialogueTree()?
         //when dialogue is selected/clicked, action will happen. First work on making text appear, then images, then audio, etc.
     }
 

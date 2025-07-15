@@ -3,7 +3,8 @@
     "name" : "POOF",
     "version": "1.0.0",
     "icons": {
-        "16": "iconPOOF.png"
+        "16": "iconPOOF.png",
+        "48": "iconPOOF.png"
     },
     "background": {
         "service_worker": "service-worker.js",
@@ -22,10 +23,17 @@
         "https://*/*"
     ],
     "content_scripts":[{
-        "js": ["injector.js"],
+        "js": ["Feature.js", "POOF.js", "injector.js"],
         "matches": [
             "http://*.google.com/*",
             "https://*/*" 
         ]
+    }],
+    "web_accessible_resources": [{
+        "resources": ["assets/*.png",
+            "assets/*.mp4",
+            "assets/*.gif"
+        ],
+        "matches": ["<all_urls>"]
     }]
 }
